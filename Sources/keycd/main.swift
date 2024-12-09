@@ -6,7 +6,7 @@ struct Keycd: ParsableCommand {
     @Argument(
         help: """
         Enter the name of the key that corresponds to the destination directory.
-        Usage example: `qcd {name of key}`
+        Usage example: `kcd {name of key}`
         """
     )
     var selectKey: String?
@@ -16,7 +16,7 @@ struct Keycd: ParsableCommand {
         name: [.customShort("s"), .customLong("save")],
         help: """
         Saves the current directory with the specified name of the key.
-        Usage example: `qcd --save {name of key}`
+        Usage example: `kcd --save {name of key}`
         """
     )
     var saveKey: String?
@@ -26,7 +26,7 @@ struct Keycd: ParsableCommand {
         name: [.customShort("d"), .customLong("delete")],
         help: """
         Removes the path saved with the key with the specified name.
-        Usage example: `qcd --delete {name of key}`
+        Usage example: `kcd --delete {name of key}`
         """
     )
     var deleteKey: String?
@@ -36,7 +36,7 @@ struct Keycd: ParsableCommand {
         name: .shortAndLong,
         help: """
         Show all saved paths.
-        Usage example: `qcd --list`
+        Usage example: `kcd --list`
         """
     )
     var list: Bool = false
