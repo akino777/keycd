@@ -8,9 +8,19 @@ A simple command line tool to quickly switch between directories.
 ```zsh
 mint install akino777/keycd  
 ```
+
+### Using Homebrew
+```zsh
+brew tap akino777/keycd
+```
+```zsh
+brew install keycd
+```
+
 ### Setup
 Since you need to run a command from a shell script, enter the following settings.
 
+#### In the case of
 ```zsh
 function kcd() {
     result=$(keycd "$@")
