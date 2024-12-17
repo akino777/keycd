@@ -21,7 +21,7 @@ final class InitialProcessTests: XCTestCase {
 
         do {
             let fileData = try Data(contentsOf: URL(fileURLWithPath: mockFilePath))
-            let data = ConstantsData.defaultPathAndKey
+            let data = Constants.defaultPathAndKey
             let jsonData = try JSONEncoder().encode(data)
 
             XCTAssertEqual(fileData, jsonData)

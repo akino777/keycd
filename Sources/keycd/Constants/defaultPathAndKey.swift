@@ -1,5 +1,5 @@
 import Foundation
 
-enum ConstantsData {
+extension Constants {
     static let defaultPathAndKey = ["home": "\(NSHomeDirectory())"]
 }
