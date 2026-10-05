@@ -9,4 +9,11 @@ final class GetPathForKeyTests: BaseTestCase {
 
         XCTAssertEqual(result, value)
     }
+
+    func testGetPathForKey_KeyNotFound() {
+        let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
+        let result = pathStorage.getPathForKey(key: keyForStorageTest)
+
+        XCTAssertNil(result, "Result should be nil")
+    }
 }

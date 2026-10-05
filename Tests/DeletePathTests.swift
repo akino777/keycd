@@ -25,4 +25,18 @@ final class DeletePathTests: BaseTestCase {
 
         XCTAssertNil(deletedValue, "Deleted value should be nil")
     }
+
+    func testDeletePath_KeyNotFound() throws {
+        let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
+        let deleteResult = pathStorage.deletePath(key: keyForStorageTest)
+
+        XCTAssertEqual(
+            deleteResult,
+            "The path corresponding to '\(keyForStorageTest)' does not exist."
+        )
+
+        let entries = try pathStorage.loadSavedPaths()
+
+        XCTAssertEqual(entries, jsonData)
+    }
 }
