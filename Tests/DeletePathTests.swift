@@ -5,35 +5,27 @@ import XCTest
 final class DeletePathTests: BaseTestCase {
     func testDeletePath_Success() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.saveCurrentPath(key: keyForStorageTest)
 
-        XCTAssertNotNil(result, "Result should not be nil")
+        try pathStorage.saveCurrentPath(key: keyForStorageTest)
 
         let currentPath = FileManager.default.currentDirectoryPath
-        let value = pathStorage.getPathForKey(key: keyForStorageTest)
+        let value = try pathStorage.getPathForKey(key: keyForStorageTest)
 
         XCTAssertEqual(value, currentPath)
 
-        let deleteResult = pathStorage.deletePath(key: keyForStorageTest)
+        try pathStorage.deletePath(key: keyForStorageTest)
 
-        XCTAssertEqual(
-            deleteResult,
-            "The path corresponding to '\(keyForStorageTest)' was successfully deleted."
-        )
-
-        let deletedValue = pathStorage.getPathForKey(key: keyForStorageTest)
-
-        XCTAssertNil(deletedValue, "Deleted value should be nil")
+        XCTAssertThrowsError(try pathStorage.getPathForKey(key: keyForStorageTest)) { error in
+            XCTAssertEqual(error as? KeycdError, .keyNotFound(keyForStorageTest))
+        }
     }
 
     func testDeletePath_KeyNotFound() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let deleteResult = pathStorage.deletePath(key: keyForStorageTest)
 
-        XCTAssertEqual(
-            deleteResult,
-            "The path corresponding to '\(keyForStorageTest)' does not exist."
-        )
+        XCTAssertThrowsError(try pathStorage.deletePath(key: keyForStorageTest)) { error in
+            XCTAssertEqual(error as? KeycdError, .keyNotFound(keyForStorageTest))
+        }
 
         let entries = try pathStorage.loadSavedPaths()
 

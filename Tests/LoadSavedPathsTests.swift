@@ -14,9 +14,10 @@ final class LoadSavedPathsTests: BaseTestCase {
         try FileManager.default.removeItem(atPath: mockFilePath)
 
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = try pathStorage.loadSavedPaths()
 
-        XCTAssertNil(result, "Result should be nil")
+        XCTAssertThrowsError(try pathStorage.loadSavedPaths()) { error in
+            XCTAssertEqual(error as? KeycdError, .fileNotFound)
+        }
     }
 
     func testLoadSavedPaths_InvalidJson() throws {
@@ -24,6 +25,8 @@ final class LoadSavedPathsTests: BaseTestCase {
 
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
 
-        XCTAssertThrowsError(try pathStorage.loadSavedPaths())
+        XCTAssertThrowsError(try pathStorage.loadSavedPaths()) { error in
+            XCTAssertEqual(error as? KeycdError, .invalidFile)
+        }
     }
 }

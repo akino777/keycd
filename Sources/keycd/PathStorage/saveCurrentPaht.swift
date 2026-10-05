@@ -1,28 +1,19 @@
 import Foundation
 
 extension PathStorage {
-    func saveCurrentPath(key: String) -> String? {
+    func saveCurrentPath(key: String) throws {
         let currentPath = FileManager.default.currentDirectoryPath
         let newEntry = [key: currentPath]
+        var entries = try loadSavedPaths()
 
-        do {
-            guard var entries = try loadSavedPaths() else {
-                return "Unable to open file."
-            }
+        entries.merge(newEntry) { _, new in new }
 
-            entries.merge(newEntry) { _, new in new }
+        let encoder = JSONEncoder()
 
-            let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
 
-            encoder.outputFormatting = .prettyPrinted
+        let jsonData = try encoder.encode(entries)
 
-            let jsonData = try encoder.encode(entries)
-
-            try jsonData.write(to: fileURL, options: .atomic)
-
-            return "New path registration has been completed successfully."
-        } catch {
-            return nil
-        }
+        try jsonData.write(to: fileURL, options: .atomic)
     }
 }

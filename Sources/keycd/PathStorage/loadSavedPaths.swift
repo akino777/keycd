@@ -1,14 +1,17 @@
 import Foundation
 
 extension PathStorage {
-    func loadSavedPaths() throws -> [String: String]? {
-        if FileManager.default.fileExists(atPath: filePath) {
-            let data = try Data(contentsOf: fileURL)
-            let entries = try JSONDecoder().decode([String: String].self, from: data)
-
-            return entries
+    func loadSavedPaths() throws -> [String: String] {
+        guard FileManager.default.fileExists(atPath: filePath) else {
+            throw KeycdError.fileNotFound
         }
 
-        return nil
+        let data = try Data(contentsOf: fileURL)
+
+        do {
+            return try JSONDecoder().decode([String: String].self, from: data)
+        } catch is DecodingError {
+            throw KeycdError.invalidFile
+        }
     }
 }

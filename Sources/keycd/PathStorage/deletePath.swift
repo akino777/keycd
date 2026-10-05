@@ -1,22 +1,15 @@
 import Foundation
 
 extension PathStorage {
-    func deletePath(key: String) -> String? {
-        do {
-            guard var entries = try loadSavedPaths() else {
-                return "Unable to open file."
-            }
+    func deletePath(key: String) throws {
+        var entries = try loadSavedPaths()
 
-            if entries.removeValue(forKey: key) != nil {
-                let updatedData = try JSONEncoder().encode(entries)
-
-                try updatedData.write(to: fileURL)
-
-                return "The path corresponding to '\(key)' was successfully deleted."
-            }
-            return "The path corresponding to '\(key)' does not exist."
-        } catch {
-            return nil
+        guard entries.removeValue(forKey: key) != nil else {
+            throw KeycdError.keyNotFound(key)
         }
+
+        let updatedData = try JSONEncoder().encode(entries)
+
+        try updatedData.write(to: fileURL)
     }
 }

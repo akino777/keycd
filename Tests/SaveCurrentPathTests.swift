@@ -5,35 +5,32 @@ import XCTest
 final class SaveCurrentPathTests: BaseTestCase {
     func testSaveCurrentPath_Success() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.saveCurrentPath(key: keyForStorageTest)
 
-        XCTAssertNotNil(result, "Result should not be nil")
+        try pathStorage.saveCurrentPath(key: keyForStorageTest)
 
         let currentPath = FileManager.default.currentDirectoryPath
-        let value = pathStorage.getPathForKey(key: keyForStorageTest)
+        let value = try pathStorage.getPathForKey(key: keyForStorageTest)
 
         XCTAssertEqual(value, currentPath)
     }
 
-    func testSaveCurrentPath_Overwrite() {
+    func testSaveCurrentPath_Overwrite() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.saveCurrentPath(key: key)
 
-        XCTAssertNotNil(result, "Result should not be nil")
+        try pathStorage.saveCurrentPath(key: key)
 
         let currentPath = FileManager.default.currentDirectoryPath
-        let overwrittenValue = pathStorage.getPathForKey(key: key)
+        let overwrittenValue = try pathStorage.getPathForKey(key: key)
 
         XCTAssertEqual(overwrittenValue, currentPath)
     }
 
-    func testSaveCurrentPath_KeepsExistingPaths() {
+    func testSaveCurrentPath_KeepsExistingPaths() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.saveCurrentPath(key: keyForStorageTest)
 
-        XCTAssertNotNil(result, "Result should not be nil")
+        try pathStorage.saveCurrentPath(key: keyForStorageTest)
 
-        let existingValue = pathStorage.getPathForKey(key: key)
+        let existingValue = try pathStorage.getPathForKey(key: key)
 
         XCTAssertEqual(existingValue, value)
     }

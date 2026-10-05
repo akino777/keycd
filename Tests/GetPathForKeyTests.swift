@@ -3,17 +3,18 @@ import XCTest
 @testable import keycd
 
 final class GetPathForKeyTests: BaseTestCase {
-    func testGetPathForKey() {
+    func testGetPathForKey() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.getPathForKey(key: key)
+        let result = try pathStorage.getPathForKey(key: key)
 
         XCTAssertEqual(result, value)
     }
 
     func testGetPathForKey_KeyNotFound() {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.getPathForKey(key: keyForStorageTest)
 
-        XCTAssertNil(result, "Result should be nil")
+        XCTAssertThrowsError(try pathStorage.getPathForKey(key: keyForStorageTest)) { error in
+            XCTAssertEqual(error as? KeycdError, .keyNotFound(keyForStorageTest))
+        }
     }
 }

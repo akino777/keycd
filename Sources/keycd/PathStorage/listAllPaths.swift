@@ -1,15 +1,8 @@
 extension PathStorage {
-    func listAllPaths() -> String? {
-        do {
-            guard let entries = try loadSavedPaths() else {
-                return "Unable to open file."
-            }
+    func listAllPaths() throws -> String {
+        let entries = try loadSavedPaths()
+        let output = PathSorter().sortPaths(entries: entries)
 
-            let output = PathSorter().sortPaths(entries: entries)
-
-            return output
-        } catch {
-            return nil
-        }
+        return output
     }
 }

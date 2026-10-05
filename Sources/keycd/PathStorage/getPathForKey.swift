@@ -1,11 +1,11 @@
 extension PathStorage {
-    func getPathForKey(key: String) -> String? {
-        do {
-            let entries = try loadSavedPaths()
+    func getPathForKey(key: String) throws -> String {
+        let entries = try loadSavedPaths()
 
-            return entries?[key]
-        } catch {
-            return nil
+        guard let path = entries[key] else {
+            throw KeycdError.keyNotFound(key)
         }
+
+        return path
     }
 }

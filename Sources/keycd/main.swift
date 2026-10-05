@@ -42,19 +42,19 @@ struct Keycd: ParsableCommand {
     var list: Bool = false
 
     func run() throws {
-        handleInitialProcess()
+        try handleInitialProcess()
 
         if let key = selectKey {
-            handleDirectoryChange(key: key)
+            try handleDirectoryChange(key: key)
         }
         if let key = saveKey {
-            handleSaveCurrentPath(key: key)
+            try handleSaveCurrentPath(key: key)
         }
         if let key = deleteKey {
-            handleDeletePath(key: key)
+            try handleDeletePath(key: key)
         }
         if list {
-            handleListPaths()
+            try handleListPaths()
         }
     }
 }
@@ -66,45 +66,32 @@ extension Keycd {
         return PathStorage()
     }
 
-    private func handleInitialProcess() {
-        do {
-            try pathStorage.directoryChecker()
-            try pathStorage.fileChecker()
-        } catch {
-            print("An error occurred during the initialization process.")
-        }
+    private func handleInitialProcess() throws {
+        try pathStorage.directoryChecker()
+        try pathStorage.fileChecker()
     }
 
-    private func handleDirectoryChange(key: String) {
-        if let path = pathStorage.getPathForKey(key: key) {
-            print(path)
-        } else {
-            FileHandle.standardError.write(Data("Directory corresponding to key not found.\n".utf8))
-            Foundation.exit(1)
-        }
+    private func handleDirectoryChange(key: String) throws {
+        let path = try pathStorage.getPathForKey(key: key)
+
+        print(path)
     }
 
-    private func handleSaveCurrentPath(key: String) {
-        if let result = pathStorage.saveCurrentPath(key: key) {
-            print(result)
-        } else {
-            print("An error occurred during the registration process.")
-        }
+    private func handleSaveCurrentPath(key: String) throws {
+        try pathStorage.saveCurrentPath(key: key)
+
+        print("New path registration has been completed successfully.")
     }
 
-    private func handleDeletePath(key: String) {
-        if let result = pathStorage.deletePath(key: key) {
-            print(result)
-        } else {
-            print("An error occurred during the deletion process.")
-        }
+    private func handleDeletePath(key: String) throws {
+        try pathStorage.deletePath(key: key)
+
+        print("The path corresponding to '\(key)' was successfully deleted.")
     }
 
-    private func handleListPaths() {
-        if let list = pathStorage.listAllPaths() {
-            print(list)
-        } else {
-            print("An error occurred while calling the list.")
-        }
+    private func handleListPaths() throws {
+        let list = try pathStorage.listAllPaths()
+
+        print(list)
     }
 }

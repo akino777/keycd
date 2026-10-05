@@ -3,9 +3,9 @@ import XCTest
 @testable import keycd
 
 final class ListAllPathsTests: BaseTestCase {
-    func testListAllPaths() {
+    func testListAllPaths() throws {
         let pathStorage = PathStorage(pathManagerProvider: MockPathManager())
-        let result = pathStorage.listAllPaths()
+        let result = try pathStorage.listAllPaths()
 
         XCTAssertEqual(
             result,
