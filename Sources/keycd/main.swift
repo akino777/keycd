@@ -71,17 +71,16 @@ extension Keycd {
             try pathStorage.directoryChecker()
             try pathStorage.fileChecker()
         } catch {
-            print("echo 'An error occurred during the initialization process.'")
+            print("An error occurred during the initialization process.")
         }
     }
 
     private func handleDirectoryChange(key: String) {
         if let path = pathStorage.getPathForKey(key: key) {
-            let command = GenerateCommand().changeDirectory(to: path)
-
-            print(command)
+            print(path)
         } else {
-            print("echo 'Directory corresponding to key not found.'")
+            FileHandle.standardError.write(Data("Directory corresponding to key not found.\n".utf8))
+            Foundation.exit(1)
         }
     }
 
@@ -89,7 +88,7 @@ extension Keycd {
         if let result = pathStorage.saveCurrentPath(key: key) {
             print(result)
         } else {
-            print("echo 'An error occurred during the registration process.'")
+            print("An error occurred during the registration process.")
         }
     }
 
@@ -97,7 +96,7 @@ extension Keycd {
         if let result = pathStorage.deletePath(key: key) {
             print(result)
         } else {
-            print("echo 'An error occurred during the deletion process.'")
+            print("An error occurred during the deletion process.")
         }
     }
 
@@ -105,7 +104,7 @@ extension Keycd {
         if let list = pathStorage.listAllPaths() {
             print(list)
         } else {
-            print("echo 'An error occurred while calling the list.'")
+            print("An error occurred while calling the list.")
         }
     }
 }

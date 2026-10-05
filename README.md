@@ -23,13 +23,16 @@ Since you need to run a command from a shell script, enter the following setting
 #### In the case of
 ```zsh
 function kcd() {
-    result=$(keycd "$@")
-
-    # Check if the result is a valid command
-    if ! eval "$result" 2>/dev/null; then
+    # Options (-s, -d, -l, -h) and no arguments only print something
+    if [[ $# -eq 0 || "$1" == -* ]]; then
         keycd "$@"
+        return
     fi
-}`
+
+    # keycd prints the destination path, so move there
+    local dir
+    dir=$(keycd "$@") && cd "$dir"
+}
 ```
 
 ## Usage

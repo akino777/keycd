@@ -18,7 +18,7 @@ final class DeletePathTests: BaseTestCase {
 
         XCTAssertEqual(
             deleteResult,
-            "echo 'The path corresponding to '\(keyForStorageTest)' was successfully deleted.'"
+            "The path corresponding to '\(keyForStorageTest)' was successfully deleted."
         )
 
         let deletedValue = pathStorage.getPathForKey(key: keyForStorageTest)

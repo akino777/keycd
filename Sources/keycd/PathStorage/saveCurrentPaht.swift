@@ -8,7 +8,7 @@ extension PathStorage {
 
         do {
             guard var entries = try loadSavedPaths() else {
-                return "echo 'Unable to open file.'"
+                return "Unable to open file."
             }
 
             entries.merge(newEntry) { _, new in new }
@@ -21,7 +21,7 @@ extension PathStorage {
 
             try jsonData.write(to: fileURL, options: .atomic)
 
-            return "echo 'New path registration has been completed successfully.'"
+            return "New path registration has been completed successfully."
         } catch {
             return nil
         }
