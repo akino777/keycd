@@ -41,7 +41,7 @@ struct Keycd: ParsableCommand {
     )
     var list: Bool = false
 
-    mutating func run() throws {
+    func run() throws {
         handleInitialProcess()
 
         if let key = selectKey {

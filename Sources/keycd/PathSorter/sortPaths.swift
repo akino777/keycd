@@ -1,7 +1,7 @@
 import Foundation
 
 extension PathSorter {
-    func sortPaths(entries: [String: String]) -> String? {
+    func sortPaths(entries: [String: String]) -> String {
         let sortedEntries = entries.sorted { $0.key < $1.key }
         let nameWidth = max(sortedEntries.map { $0.key.count }.max() ?? 0, "Name".count)
         let pathWidth = max(sortedEntries.map { $0.value.count }.max() ?? 0, "Path".count)

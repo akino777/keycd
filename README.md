@@ -20,7 +20,7 @@ brew install keycd
 ### Setup
 Since you need to run a command from a shell script, enter the following settings.
 
-#### In the case of
+#### In the case of zsh
 ```zsh
 function kcd() {
     # Options (-s, -d, -l, -h) and no arguments only print something

@@ -1,5 +1,3 @@
-import Foundation
-
 extension PathStorage {
     func listAllPaths() -> String? {
         do {

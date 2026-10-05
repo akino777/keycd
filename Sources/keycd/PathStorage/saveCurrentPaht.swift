@@ -1,4 +1,3 @@
-// Save Current path
 import Foundation
 
 extension PathStorage {

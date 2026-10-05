@@ -3,7 +3,6 @@ import XCTest
 class BaseTestCase: XCTestCase {
     let mockDirectoryPath = MockPathManager().directoryPath()
     let mockFilePath = MockPathManager().filePath()
-    let path = TestData.path
     let jsonData = TestData.jsonData
     let key = TestData.key
     let value = TestData.value
